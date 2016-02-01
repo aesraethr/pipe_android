@@ -1,17 +1,17 @@
 package ch.ebu.pipe_android.beans;
 
 public class Payload {
-    Object actionData;
-    Browser browserData;
-    String sendStart;
-    String contentID;
-    String userID;
-    String sessionCookieID;
-    String appType;
-    int sessionStart;
-    int pageStart;
-    String cookieId;
-    String deviceId;
+    private Object actionData;
+    private Browser browserData;
+    private String sendStart;
+    private String contentID;
+    private String userID;
+    private String sessionCookieID;
+    private String appType;
+    private int sessionStart;
+    private int pageStart;
+    private String cookieId;
+    private String deviceId;
 
     public Payload(Object actionData, Browser browserData, String sendStart, String contentID, String userID, String sessionCookieID, String appType, int sessionStart, int pageStart, String cookieId, String deviceId) {
         this.actionData = actionData;

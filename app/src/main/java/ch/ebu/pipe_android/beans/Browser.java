@@ -1,19 +1,19 @@
 package ch.ebu.pipe_android.beans;
 
 public class Browser {
-    boolean javaEnabled;
-    String hostName;
-    String screenColors;
-    String language;
-    String referer;
-    String charSet;
-    String location;
-    String flashVersion;
-    String pageTitle;
-    String viewPortSize;
-    int timeZone;
-    String page;
-    String screenSize;
+    private boolean javaEnabled;
+    private String hostName;
+    private String screenColors;
+    private String language;
+    private String referer;
+    private String charSet;
+    private String location;
+    private String flashVersion;
+    private String pageTitle;
+    private String viewPortSize;
+    private int timeZone;
+    private String page;
+    private String screenSize;
 
     public Browser(boolean javaEnabled, String hostName, String screenColors, String language, String referer, String charSet, String location, String flashVersion, String pageTitle, String viewPortSize, int timeZone, String page, String screenSize) {
         this.javaEnabled = javaEnabled;
