@@ -1,5 +1,6 @@
 package ch.ebu.pipe_android;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -18,14 +19,16 @@ public class WebServices {
 
     private RequestQueue requestQueue;
 
-    private static WebServices webServices;
+    private static WebServices webServices = new WebServices();
 
     private String url;
     private String urlSeparator = "/";
+    private Context context;
 
 
-    public WebServices() {
-        requestQueue = Volley.newRequestQueue(PipeCollect.getContext());
+    private WebServices() {
+        context = PipeCollect.getContext();
+        requestQueue = Volley.newRequestQueue(context);
     }
 
     public static WebServices getInstance() {
@@ -34,7 +37,7 @@ public class WebServices {
 
     public void setConfiguration() {
 
-        url = R.string.base_url + urlSeparator + R.string.version + urlSeparator + R.string.url_config;
+        url = context.getString(R.string.base_url) + urlSeparator + context.getString(R.string.version) + urlSeparator + context.getString(R.string.url_config);
 
         final JsonObjectRequest request = new JsonObjectRequest(
                 url,

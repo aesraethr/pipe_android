@@ -8,7 +8,7 @@ public class PipeCollect extends Application {
     private static PipeCollect instance;
     private WebServices webServices;
 
-    public PipeCollect() {
+    private PipeCollect() {
         instance = this;
     }
 
@@ -21,11 +21,5 @@ public class PipeCollect extends Application {
         webServices = WebServices.getInstance();
         super.onCreate();
     }
-
-    public static void main(String [] args) {
-
-        WebServices.getInstance().setConfiguration();
-    }
-
 
 }
