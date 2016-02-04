@@ -137,4 +137,23 @@ public class Browser {
     public void setScreenSize(String screenSize) {
         this.screenSize = screenSize;
     }
+
+    @Override
+    public String toString() {
+        return "Browser{" +
+                "javaEnabled=" + javaEnabled +
+                ", hostName='" + hostName + '\'' +
+                ", screenColors='" + screenColors + '\'' +
+                ", language='" + language + '\'' +
+                ", referer='" + referer + '\'' +
+                ", charSet='" + charSet + '\'' +
+                ", location='" + location + '\'' +
+                ", flashVersion='" + flashVersion + '\'' +
+                ", pageTitle='" + pageTitle + '\'' +
+                ", viewPortSize='" + viewPortSize + '\'' +
+                ", timeZone=" + timeZone +
+                ", page='" + page + '\'' +
+                ", screenSize='" + screenSize + '\'' +
+                '}';
+    }
 }

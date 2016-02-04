@@ -3,7 +3,6 @@ package ch.ebu.pipe_android;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -14,6 +13,7 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import ch.ebu.pipe_android.beans.Config;
+import ch.ebu.pipe_android.beans.ConfigResponseListener;
 
 public class WebServices {
 
@@ -25,6 +25,8 @@ public class WebServices {
     private String urlSeparator = "/";
     private Context context;
 
+    private Config config;
+
 
     private WebServices() {
         context = PipeCollect.getContext();
@@ -35,7 +37,7 @@ public class WebServices {
         return webServices;
     }
 
-    public void setConfiguration() {
+    public void setConfiguration(final ConfigResponseListener listener) {
 
         url = context.getString(R.string.base_url) + urlSeparator + context.getString(R.string.version) + urlSeparator + context.getString(R.string.url_config);
 
@@ -44,14 +46,14 @@ public class WebServices {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Config config = new Gson().fromJson(response.toString(),Config.class);
-                        Log.e("CONFIG",config.toString());
+                        config = new Gson().fromJson(response.toString(),Config.class);
+                        listener.SaveConfig(config);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Config ERROR",error.getMessage());
+                        listener.ErrorConfig(error);
                     }
                 });
 
