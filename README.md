@@ -72,7 +72,6 @@ _____________________
 ### Collecting data
 
 1. You, first have to **set the configuration** with your site key : 
-
 ```java
     public class TestApplication extends PipeCollect {
     
