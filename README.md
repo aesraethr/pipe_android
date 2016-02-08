@@ -56,6 +56,20 @@ _____________________
             <string name="site_key">yourSiteKey12345</string>
     </resources>
 ```
+_____________________
+
+4. Don't forget adding the line about **your application** class (here .TestApplication) in your manifest file
+
+```xml
+    <application
+        android:name=".TestApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+    </application>
+```
 
 ### Collecting data
 
@@ -64,11 +78,10 @@ _____________________
 ```java
     public class TestApplication extends PipeCollect {
     
-            @Override
-            public void onCreate() {
-                super.onCreate();
-                setConfiguration(getString(R.string.site_key));
-            }
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            setConfiguration(getString(R.string.site_key));
+        }
     }
 ```
-_____________________
