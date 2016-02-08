@@ -48,18 +48,16 @@ public class TestApplication extends PipeCollect {
 _____________________
 
 3. You have to set a string variable in your app with your **site key** (res/values/strings.xml)
-
 ```xml
     <resources>
-            <string name="app_name">My Application</string>
-            <string name="action_settings">Settings</string>
-            <string name="site_key">yourSiteKey12345</string>
+        <string name="app_name">My Application</string>
+        <string name="action_settings">Settings</string>
+        <string name="site_key">yourSiteKey12345</string>
     </resources>
 ```
 _____________________
 
 4. Don't forget adding the line about **your application** class (here .TestApplication) in your manifest file
-
 ```xml
     <application
         android:name=".TestApplication"
