@@ -74,11 +74,38 @@ _____________________
 1. You, first have to **set the configuration** with your site key : 
 ```java
     public class TestApplication extends PipeCollect {
+
+        private static TestApplication instance;
     
         @Override
         public void onCreate() {
             super.onCreate();
-            setConfiguration(getString(R.string.site_key));
+            instance = this;
+            setConfiguration(getString(R.string.site_key), "your.domain.name");
         }
+    
+        public static TestApplication getInstance(){
+            return instance;
+        }
+    
     }
+```
+_____________________
+
+2. Example of collecting data in main activity on button click event
+```java
+    button.setOnClickListener(new View.OnClickListener() {
+    
+        public void onClick(View v) {
+    
+            tv.setText(sw.getRandomSentence());
+            Data data = new Data();
+            data.setId(123);
+            data.setContent("mon beau contenu");
+            data.setName("Damien");
+    
+    
+            TestApplication.getInstance().collectData("data_test_android", data);
+        }
+    });
 ```
