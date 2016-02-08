@@ -29,6 +29,8 @@ public class PipeCollect extends Application {
     private Config config;
     private String origin;
 
+    private boolean locked = true;
+
     public PipeCollect() {
         instance = this;
     }
@@ -50,7 +52,7 @@ public class PipeCollect extends Application {
 
     public void setConfiguration(String siteKey, String origin) {
         // no user Id
-        setConfiguration(siteKey, null , Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID), origin);
+        setConfiguration(siteKey, null, Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID), origin);
     }
 
     public void setConfiguration(final String siteKey, final String userId, final String deviceId, final String origin) {
@@ -68,6 +70,7 @@ public class PipeCollect extends Application {
                 } else {
                     payload.setCookieId(UUID.randomUUID().toString());
                     editor.putString("cookie_id", payload.getCookieId());
+                    editor.apply();
                 }
                 // generate a new session id each time the configuration is set
                 payload.setSessionCookieID(UUID.randomUUID().toString());
@@ -93,30 +96,39 @@ public class PipeCollect extends Application {
                 setConfig(config);
                 setOrigin(origin);
 
+                locked = false;
+
             }
 
             @Override
             public void errorConfig(Exception e) {
                 Log.e(TAG, e.getMessage(), e);
+                locked = true;
             }
         });
     }
 
     public void collectData(String eventAction, Object actionData) {
 
-        payload.setActionData(actionData);
+        if(locked) {
+            // todo : we should find a better way to do this
+            Log.e(TAG,"Configuration not set, please call setConfiguration first");
 
-        webServices.collectData(payload, siteKey, eventAction, origin, config, new CollectResponseListener() {
-            @Override
-            public void successCollect() {
-                Log.i(TAG, "Payload : " + payload.toString() + " Collected Successfully");
-            }
+        } else {
+            payload.setActionData(actionData);
 
-            @Override
-            public void errorCollect(Exception e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-        });
+            webServices.collectData(payload, siteKey, eventAction, origin, config, new CollectResponseListener() {
+                @Override
+                public void successCollect() {
+                    Log.i(TAG, "Payload : " + payload.toString() + " Collected Successfully");
+                }
+
+                @Override
+                public void errorCollect(Exception e) {
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            });
+        }
     }
 
     private void setSiteKey(String siteKey) {

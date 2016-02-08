@@ -71,8 +71,8 @@ public class WebServices {
     }
 
     void collectData(final Payload payload, String sitekey,  String eventAction, final String origin, final Config config, final CollectResponseListener listener) {
-        // todo : how to chose the right endpoint ?
-        url = config.getEndpoints().get(0) + urlSeparator +
+        // todo : how to chose the right endpoint & protocol ?
+        url = "http://" + config.getEndpoints().get(0) + urlSeparator +
                 context.getString(R.string.version) + urlSeparator +
                 context.getString(R.string.url_collect) + "?" +
                 "s=" + sitekey + "&" +
