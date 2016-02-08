@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import ch.ebu.pipe_android.beans.CollectResponseListener;
@@ -90,7 +91,7 @@ public class WebServices {
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params =  super.getHeaders();
+                Map<String,String> params =  new HashMap<>();
                 params.put("User-Agent", System.getProperty("http.agent"));
                 params.put("Origin", origin);
                 return params;
@@ -98,7 +99,7 @@ public class WebServices {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = super.getParams();
+                Map<String, String> params = new HashMap<>();
                 params.put("payload", new Gson().toJson(payload));
                 return params;
             }
