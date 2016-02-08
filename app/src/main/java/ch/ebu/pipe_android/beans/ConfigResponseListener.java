@@ -2,8 +2,8 @@ package ch.ebu.pipe_android.beans;
 
 public interface ConfigResponseListener {
 
-    void SaveConfig(Config config);
+    void saveConfig(Config config);
 
-    void ErrorConfig(Exception e);
+    void errorConfig(Exception e);
 
 }
