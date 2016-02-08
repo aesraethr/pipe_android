@@ -92,18 +92,15 @@ _____________________
 ```
 _____________________
 
-2. Example of collecting data in main activity on button click event
+2. Example of **collecting data** in main activity on button click event
 ```java
     button.setOnClickListener(new View.OnClickListener() {
     
         public void onClick(View v) {
     
             tv.setText(sw.getRandomSentence());
-            Data data = new Data();
-            data.setId(123);
-            data.setContent("mon beau contenu");
-            data.setName("Damien");
-    
+            YourData data = new YourData();
+            //Set yourdata here
     
             TestApplication.getInstance().collectData("data_test_android", data);
         }
