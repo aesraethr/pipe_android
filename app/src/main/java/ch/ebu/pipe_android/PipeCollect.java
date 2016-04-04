@@ -1,6 +1,5 @@
 package ch.ebu.pipe_android;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
@@ -18,48 +17,45 @@ import ch.ebu.pipe_android.beans.Config;
 import ch.ebu.pipe_android.beans.ConfigResponseListener;
 import ch.ebu.pipe_android.beans.Payload;
 
-public class PipeCollect extends Application {
+public class PipeCollect {
 
-    private static PipeCollect instance;
+    private static PipeCollect instance = new PipeCollect();
     private static String TAG = PipeCollect.class.getName();
     private static String PREFS = "PipePrefs";
+    private static Context context;
     private WebServices webServices;
     private Payload payload;
     private String siteKey;
     private Config config;
     private String origin;
 
-    private boolean locked = true;
-
     public PipeCollect() {
-        instance = this;
+        webServices = WebServices.getInstance();
     }
 
-    public static Context getContext() {
+    public static PipeCollect getInstance() {
         return instance;
     }
 
-    @Override
-    public void onCreate() {
-        webServices = WebServices.getInstance();
-
-        super.onCreate();
+    public static Context getContext() {
+        return context;
     }
 
-    public void setConfiguration(String siteKey, String deviceId, String origin){
-        setConfiguration(siteKey, null, deviceId, origin);
+    public void setConfiguration(String siteKey, String deviceId, String origin, Context context){
+        setConfiguration(siteKey, null, deviceId, origin, context);
     }
 
-    public void setConfiguration(String siteKey, String origin) {
+    public void setConfiguration(String siteKey, String origin, Context context) {
         // no user Id
-        setConfiguration(siteKey, null, Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID), origin);
+        setConfiguration(siteKey, null, Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID), origin, context);
     }
 
-    public void setConfiguration(final String siteKey, final String userId, final String deviceId, final String origin) {
-        final SharedPreferences settings = getSharedPreferences(PREFS ,MODE_PRIVATE);
+    public void setConfiguration(final String siteKey, final String userId, final String deviceId, final String origin, final Context context) {
+        final SharedPreferences settings = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = settings.edit();
 
         // Set the configuration
+        PipeCollect.context = context;
         webServices.setConfiguration(new ConfigResponseListener() {
             @Override
             public void saveConfig(Config config) {
@@ -81,8 +77,8 @@ public class PipeCollect extends Application {
 
                 Browser browserData = new Browser();
                 browserData.setJavaEnabled(true);
-                browserData.setHostName(getApplicationContext().getPackageName());
-                browserData.setLanguage(getResources().getConfiguration().locale.getLanguage());
+                browserData.setHostName(context.getApplicationContext().getPackageName());
+                browserData.setLanguage(context.getResources().getConfiguration().locale.getLanguage());
                 browserData.setCharSet(Charset.defaultCharset().displayName());
                 // todo set location browserData.setLocation();
                 browserData.setTimeZone(TimeZone.getDefault().getRawOffset());
@@ -96,21 +92,18 @@ public class PipeCollect extends Application {
                 setConfig(config);
                 setOrigin(origin);
 
-                locked = false;
-
             }
 
             @Override
             public void errorConfig(Exception e) {
                 Log.e(TAG, e.getMessage(), e);
-                locked = true;
             }
-        });
+        }, context );
     }
 
     public void collectData(String eventAction, Object actionData) {
 
-        if(locked) {
+        if(context == null) {
             // todo : we should find a better way to do this
             Log.e(TAG,"Configuration not set, please call setConfiguration first");
 

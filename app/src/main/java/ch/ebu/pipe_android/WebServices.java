@@ -1,8 +1,6 @@
 package ch.ebu.pipe_android;
 
 import android.content.Context;
-import android.provider.Settings;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,21 +30,21 @@ public class WebServices {
 
     private String url;
     private String urlSeparator = "/";
-    private Context context;
 
     private Config config;
 
 
     private WebServices() {
-        context = PipeCollect.getContext();
-        requestQueue = Volley.newRequestQueue(context);
     }
 
     static WebServices getInstance() {
         return webServices;
     }
 
-    void setConfiguration(final ConfigResponseListener listener) {
+    void setConfiguration(final ConfigResponseListener listener, Context context) {
+
+
+        requestQueue = Volley.newRequestQueue(context);
 
         url = context.getString(R.string.base_url) + urlSeparator + context.getString(R.string.version) + urlSeparator + context.getString(R.string.url_config);
 
@@ -73,8 +71,8 @@ public class WebServices {
     void collectData(final Payload payload, String sitekey,  String eventAction, final String origin, final Config config, final CollectResponseListener listener) {
         // todo : how to chose the right endpoint & protocol ?
         url = "http://" + config.getEndpoints().get(0) + urlSeparator +
-                context.getString(R.string.version) + urlSeparator +
-                context.getString(R.string.url_collect) + "?" +
+                PipeCollect.getContext().getString(R.string.version) + urlSeparator +
+                PipeCollect.getContext().getString(R.string.url_collect) + "?" +
                 "s=" + sitekey + "&" +
                 "e=" + eventAction ;
 
