@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Pipe Android</string>
+    <!-- Webservices configuration -->
+    <string name="base_url">http://pipe-collect.ebu.io</string>
+    <string name="version">v1</string>
+    <string name="url_config">pipeconfig</string>
+    <string name="url_collect">collect</string>
 </resources>
