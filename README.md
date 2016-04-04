@@ -38,16 +38,7 @@ Before starting, you need to have a **site key** for collecting data related to 
 ```
 _____________________
 
-2. You need to **extend** your application class with the PipeCollect class
-```java
-public class TestApplication extends PipeCollect {
-
-        //Your app code
-}
-```
-_____________________
-
-3. You have to set a string variable in your app with your **site key** (res/values/strings.xml)
+2. You have to set a string variable in your app with your **site key** (res/values/strings.xml)
 ```xml
     <resources>
         <string name="app_name">My Application</string>
@@ -55,25 +46,12 @@ _____________________
         <string name="site_key">yourSiteKey12345</string>
     </resources>
 ```
-_____________________
-
-4. Don't forget adding the line about **your application** class (here .TestApplication) in your manifest file
-```xml
-    <application
-        android:name=".TestApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-    </application>
-```
 
 ### Collecting data
 
 1. You, first have to **set the configuration** with your site key : 
 ```java
-    public class TestApplication extends PipeCollect {
+    public class TestApplication {
 
         private static TestApplication instance;
     
@@ -81,7 +59,7 @@ _____________________
         public void onCreate() {
             super.onCreate();
             instance = this;
-            setConfiguration(getString(R.string.site_key), "your.domain.name");
+            PipeCollect.getInstance().setConfiguration(getString(R.string.site_key), "your.domain.name", getApplicationContext());
         }
     
         public static TestApplication getInstance(){
@@ -102,7 +80,7 @@ _____________________
             YourData data = new YourData();
             //Set yourdata here
     
-            TestApplication.getInstance().collectData("data_test_android", data);
+            PipeCollect.getInstance().collectData("data_test_android", data);
         }
     });
 ```
